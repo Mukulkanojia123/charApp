@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProtectRoute from './components/auth/ProtectRoute.jsx';
 
 // Lazy-loaded components
-const Home = lazy(() => import('./pages/Home'));
+const Home = lazy(() => import('./pages/Home.jsx'));
 const Login = lazy(() => import('./pages/Login'));
 const Chat = lazy(() => import('./pages/Chat'));
 const Groups = lazy(() => import('./pages/Groups'));
