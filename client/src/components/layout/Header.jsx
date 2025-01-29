@@ -1,15 +1,43 @@
-import { AppBar, Box, Toolbar, Typography, IconButton } from '@mui/material'
-import React from 'react'
+import { AppBar, Box, Toolbar, Typography, IconButton, Tooltip } from '@mui/material'
+import React, { lazy,Suspense } from 'react'
 import { orange } from '../constants/color'
-import {Menu as MenuIcon , Search as SearchIcon} from "@mui/icons-material"
+import {Add as AddIcon ,Menu as MenuIcon , Search as SearchIcon, Group as GroupIcon, Logout as LogoutIcon, Notifications as NotificationsIcon} from "@mui/icons-material"
+import {useNavigate} from 'react-router-dom'
+// import SearchDialog from '../specific/Search'
+
+  const SearchDialog = lazy(() => import('../specific/Search'))
+  const Notifications = lazy(() => import('../specific/Notifications'))
+  const NewGroupDialog = lazy(() => import('../specific/NewGroup'))
 
 const Header = () => {
 
+    const navigate = useNavigate();
+
+    const [isMobile , setIsMobile] = useState();
+    const [isSearch , setIsSearch] = useState();
+    const [isNewGroup , setIsNewGroup] = useState();
+    const [isNotification , setIsNotification] = useState();
+
+
   const handleMobile = () =>{
-    console.log('Mobile')
+    setIsMobile(prev => !prev)
   }
   const openSearchDialog = () =>{
-    console.log('search')
+    setIsSearch(prev => !prev)
+  }
+  const openNewGraoup = () =>{
+    setIsNewGroup(prev => !prev)
+  }
+
+  const openNotification = () =>{
+    setIsNotification(prev => !prev)
+  }
+  const navigateToGroup = () =>{
+    navigate('/group')
+  }
+
+  const logOutHandler = () =>{
+    console.log('logOut')
   }
 
   return (
@@ -38,15 +66,73 @@ const Header = () => {
             flexGrow : 1
           }}/>
           <Box>
-          <IconButton color="inherit" size="large" onClick={openSearchDialog}>
-              <SearchIcon/>
-            </IconButton>
+         
+            <IconBtn
+            title = "search"
+            icon = {<SearchIcon/>}
+            onClick={openSearchDialog}
+            />
+            <IconBtn
+            title = "New Group"
+            icon = {<AddIcon/>}
+            onClick={openNewGraoup}
+            />
+            <IconBtn
+            title = "Manage Group"
+            icon = {<GroupIcon/>}
+            onClick={navigateToGroup}
+            />
+            <IconBtn
+            title = "Notification"
+            icon = {<NotificationsIcon/>}
+            onClick={openNotification}
+            />
+            <IconBtn
+            title = "Logout"
+            icon = {<LogoutIcon/>}
+            onClick={logOutHandler}
+            />
           </Box>
         </Toolbar>
       </AppBar>
 
     </Box>
+
+    {
+      isSearch && (
+        <Suspense fallback={<div>Loading Login...</div>}>
+        <SearchDialog/>
+        </Suspense>
+        
+      )
+    }
+    {
+      isNewGroup && (
+        <Suspense fallback={<div>Loading Login...</div>}>
+        <NewGroupDialog/>
+        </Suspense>
+        
+      )
+    }
+    {
+      isNotification && (
+        <Suspense fallback={<div>Loading Login...</div>}>
+        <Notifications/>
+        </Suspense>
+        
+      )
+    }
     </>
+  )
+}
+
+const IconBtn = ({title, icon, onClick}) =>{
+  return (
+    <Tooltip title={title}>
+            <IconButton color='inherit' size='large' onClick={onClick}>
+            {icon}
+            </IconButton>
+    </Tooltip>
   )
 }
 
