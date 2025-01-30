@@ -1,21 +1,13 @@
-import React from "react";
-import Header from "./Header";
-import Title from "../shared/Title";
+import React from 'react'
 import Grid from "@mui/material/Grid2";
-import ChatList from "../specific/ChatList";
+import Skeleton from '@mui/material/Skeleton';
+import { Stack } from '@mui/material';
 
-const AppLayout = (WrappedComponent) => {
-  return (props) => {
-    return (
-      <>
-        
-        <Title title="Chat App" />
-        
-        
-        <Header />
-        
-       
-        <Grid container height={"calc(100vh - 4rem)"}>
+
+
+export const LayoutLoader = () => {
+  return (
+    <Grid container height={"calc(100vh - 4rem)"} spacing={'1rem'}>
           
           <Grid
             item
@@ -28,7 +20,7 @@ const AppLayout = (WrappedComponent) => {
             }}
             height={"100%"}
           >
-            <ChatList chats = {[1,2,3,4,5,6]}/>
+            <Skeleton variant='rectangular'height={"100vh"}/>
           </Grid>
           
         
@@ -43,7 +35,14 @@ const AppLayout = (WrappedComponent) => {
             height={"100%"}
             // bgcolor="primary.main"
           >
-            <WrappedComponent {...props} />
+            <Stack spacing={"1rem"}>
+            {
+              Array.from({length : 10}).map((_, index) =>(
+
+                <Skeleton key={index} variant='rounded' height={"5rem"}/>
+              ))
+            }
+            </Stack>
           </Grid>
           
           
@@ -56,16 +55,15 @@ const AppLayout = (WrappedComponent) => {
             height={"100%"}
             sx={{
               display: { xs: "none", md: "block" },
-              padding: "2rem",
-              bgcolor: "rgba(0,0,0,0.85)",
+              // padding: "2rem",
+              // bgcolor: "rgba(0,0,0,0.85)",
             }}
           >
-            Third
+            <Skeleton variant='rectangular'height={"100vh"}/>
           </Grid>
         </Grid>
-      </>
-    );
-  };
-};
 
-export default AppLayout;
+  )
+}
+
+// export default Loaders
