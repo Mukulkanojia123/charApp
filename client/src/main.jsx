@@ -49,9 +49,11 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
       <CssBaseline />
+      <div onContextMenu={(e) => e.preventDefault()}>
       <Suspense fallback={<LayoutLoader/>}>
         <RouterProvider router={appRouter} />
       </Suspense>
+      </div>
     </HelmetProvider>
   </StrictMode>
 );
