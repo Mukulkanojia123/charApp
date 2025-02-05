@@ -3,6 +3,7 @@ import { Stack } from '@mui/material'
 import ChatItem from '../shared/ChatItem'
 
 const ChatList = ({w='100%', chats=[],chatId, onlineUsers=[],newMessagesAlert=[{chatId : "", count:0}], handleDeleteChat, }) => {
+    console.log(chatId);
     return (
       <Stack width={w} direction={"column"}>
           {

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Header from "./Header";
 import Title from "../shared/Title";
 import Grid from "@mui/material/Grid2";
-import ChatList from "../specific/ChatList";
+import ChatList from "../specific/Chatlist";
 import {sampleChats} from "../constants/sampleData"
 import Profile from "../specific/Profile";
 
