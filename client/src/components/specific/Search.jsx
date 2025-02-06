@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, Stack, TextField, InputAdornment, List, ListItem, 
 import { useInputValidation } from "6pp";
 import { Search as SearchIcon } from '@mui/icons-material';
 import UserItem from '../shared/UserItem';
+import {sampleUsers} from '../constants/sampleData'
 
 // const users = [1,2,3,4,5]
 
@@ -14,7 +15,7 @@ const Search = () => {
 
   let isLoadingSendFriend = false;
 
-  const [users, setUsers] = useState([1,2,3,4,5])
+  const [users, setUsers] = useState(sampleUsers)
 
 
   return (

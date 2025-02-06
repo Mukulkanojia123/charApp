@@ -1,6 +1,6 @@
-import { Avatar, IconButton, ListItem, Stack, Typography } from '@mui/material'
-import { Add as AddIcon } from '@mui/icons-material'
-import React from 'react'
+import { memo } from 'react';
+import { Avatar, IconButton, ListItem, Stack, Typography } from '@mui/material';
+import { Add as AddIcon } from '@mui/icons-material';
 
 const UserItem = ({user, handler, handlerIsLoding}) => {
 
@@ -23,7 +23,8 @@ const UserItem = ({user, handler, handlerIsLoding}) => {
                 WebkitAlignClamp : 1,
                 WebkitBoxOrient  : "vertical",
                 overflow : 'hidden',
-                textOverflow : "ellipsis"
+                textOverflow : "ellipsis",
+                // background : 'red'
             }}
             >{name}</Typography>
             <IconButton 
