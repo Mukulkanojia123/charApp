@@ -38,7 +38,7 @@ export const sampleUsers = [
     {
         avatar: 'https://www.w3schools.com/howto/img_avatar.png',
         name: 'John Boi',
-        _id: "1",
+        _id: "2",
 
     },
 

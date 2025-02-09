@@ -1,5 +1,5 @@
-import React, {memo} from 'react'
-import { Dialog, DialogTitle, Stack, TextField, InputAdornment, List, ListItem, ListItemText, Typography, Avatar, Button } from '@mui/material';
+import { Avatar, Button, Dialog, DialogTitle, ListItem, Stack, Typography } from '@mui/material';
+import React, { memo } from 'react';
 import { sampleNotifications } from '../constants/sampleData';
 
 const Notifications = () => {
@@ -27,6 +27,7 @@ const Notifications = () => {
 }
 
 const NotificationItem = memo(({sender, _id, handler}) =>{
+  const {name , avatar} = sender
   return (
     <ListItem>
         <Stack
@@ -35,23 +36,26 @@ const NotificationItem = memo(({sender, _id, handler}) =>{
         spacing={'1rem'}
         width={"100%"}
         >
-            <Avatar/>
+            <Avatar src={avatar}/>
             <Typography
             variant='body1'
             sx={{
-                flexGrow : 1,
-                display : '-webkit-box',
-                WebkitAlignClamp : 1,
-                WebkitBoxOrient  : "vertical",
-                overflow : 'hidden',
-                textOverflow : "ellipsis",
+              flexGrow: 1,
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 1, 
+              overflow: "hidden",
+              textOverflow: "ellipsis",
                 // background : 'red'
             }}
-            >{`${sender} sent you a friend requuest`}
+            >{`${name} send a request `}
             </Typography>
-            <Stack>
-            <Button>Accept</Button>
-            <Button>Reject</Button>  
+            <Stack direction={{
+              xs : "column",
+              sm : "row"
+            }}>
+            <Button onClick={()=> handler({_id, accept: true, })}>Accept</Button>
+            <Button color='error' onClick={()=> handler({_id, accept: false, })}>Reject</Button>  
             </Stack>   
         </Stack>
     </ListItem>
