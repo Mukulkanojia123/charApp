@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Avatar, Button, Dialog, DialogTitle, ListItem, Stack, TextField, Typography } from '@mui/material';
-import {sampleUsers} from './../constants/sampleData'
-import UserItem from '../shared/UserItem';
 import { useInputValidation } from '6pp';
+import { Button, Dialog, DialogTitle, Stack, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import UserItem from '../shared/UserItem';
+import { sampleUsers } from './../constants/sampleData';
 
 const NewGroup = () => {
 
@@ -23,9 +23,13 @@ const selectMemberhandler = (id) => {
     ? prev.filter((i) => i !== id) 
     :[...prev,id]))
 }
-console.log(selectedMembers)
+// console.log(selectedMembers)
 
 const submitHandler = () =>{
+
+}
+
+const closehandler = () =>{
 
 }
 

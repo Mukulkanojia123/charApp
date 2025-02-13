@@ -22,3 +22,5 @@ export const Link = styled(LinkComponent)`
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
+
+export const InputBox = ""
