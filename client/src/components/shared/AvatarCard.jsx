@@ -1,5 +1,6 @@
 import { AvatarGroup, Box, Stack } from '@mui/material'
 import React from 'react'
+import { transforImage } from '../../lib/features'
 
 const AvatarCard = ({avatar = [], max=4}) => {
   return (
@@ -11,7 +12,7 @@ const AvatarCard = ({avatar = [], max=4}) => {
                     avatar.map((src, index) =>(
                         <img
                         key = {Math.random() *100}
-                        src = {src}
+                        src = {transforImage(url)}
                         alt = {`Avatar ${index}`}
                         style={{
                             width : '2rem',
