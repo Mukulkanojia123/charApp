@@ -12,7 +12,7 @@ const AvatarCard = ({avatar = [], max=4}) => {
                     avatar.map((src, index) =>(
                         <img
                         key = {Math.random() *100}
-                        src = {transforImage(url)}
+                        src = {transforImage(src)}
                         alt = {`Avatar ${index}`}
                         style={{
                             width : '2rem',

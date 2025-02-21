@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import { lightBlue } from '@mui/material/colors'
 import React, {memo} from 'react'
 import moment from 'moment'
@@ -32,6 +32,7 @@ const MessageComponent = ({message , user}) => {
             attachments.length > 0 && attachments.map((attachment, index) =>{
                 const url = attachment.url;
                 const file = fileFormat(url)
+                // console.log(url)
 
                 return <Box key={index}>
                     <a

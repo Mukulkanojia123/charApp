@@ -1,17 +1,18 @@
 import React from 'react'
-import { transforImage } from '../../lib/features';
+import { fileFormat, transforImage } from '../../lib/features';
 import {FileOpen as FileOpenIcon} from '@mui/icons-material'
 
 const RenderAttachment = (file, url) => {
-
+  // console.log(file)
+  // console.log(url)
     switch (file){
         case 'video' :
             return <video src={url} preload='none' width={'200px'} control />
             
         case 'image' :
-            return <image 
+            return <img 
             src={transforImage(url, 200)} 
-            alt='attachment' 
+            alt='Attachment' 
             width={'200px'} 
             height={'200px'} 
             style={{

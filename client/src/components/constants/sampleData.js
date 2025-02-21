@@ -72,12 +72,12 @@ export const sampleNotifications = [
 
 export const sampleMessage = [
     {
-        attachments : [
-            {
-                public_id : 'asad',
-                url : 'https://www.w3schools.com/howto/img_avatar.png'
-            }
-        ],
+        // attachments : [
+        //     {
+        //         public_id : 'asad',
+        //         url : 'https://www.w3schools.com/howto/img_avatar.png'
+        //     }
+        // ],
         content : 'ayaa h message',
         _id : 'vowi8u0_8er09f-e8fe',
         sender : {
