@@ -1,8 +1,11 @@
 import { KeyboardBackspace as KeyboardBackspaceIcon, Menu as MenuIcon } from '@mui/icons-material'
 import { Box, Drawer, Grid2, IconButton, Stack, Tooltip, Typography } from '@mui/material'
 import { matBlack } from '../components/constants/color'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import {Link} from '../components/styles/StyledComponents'
+import AvatarCard from "../components/shared/AvatarCard";
+import {sampleChats} from "../components/constants/sampleData"
 
 const Groups = () => {
 
@@ -67,7 +70,7 @@ const Groups = () => {
     // sm={4}
     bgcolor={'bisque'}
     >
-      <GroupList/>
+      <GroupList myGroups={sampleChats} chatId={chatId}/>
     </Grid2>
     <Grid2 item size={{ xs:12, sm:8 }} sx={{
       display : 'flex',
@@ -97,7 +100,7 @@ const GroupList = ({w='100%', myGroups = [],chatId})=>(
   <Stack>
     {
       myGroups.length > 0 ? (
-        myGroups.map((group) =>{})
+        myGroups.map((group) =><GroupListItem key={group._id} group={group} chatId={chatId}/>)
       ) : (
         <Typography variant="body1" color="initial" textAlign={'center'}>No group</Typography>
       )
@@ -105,6 +108,22 @@ const GroupList = ({w='100%', myGroups = [],chatId})=>(
   </Stack>
 )
 
-const GroupListItem = ()=>{}
+const GroupListItem =memo(({group, chatId})=>{
+
+  const {name, avatar, _id} = group;
+  //  to={`?group=${_id}`} to access the id from url ? for queery
+    return (
+    <Link to={`?group=${_id}`} onClick={e =>
+    {
+      if(chatId === id) e.preventDefault();
+    }
+    }>    
+    <Stack direction={'row'} spacing={'1rem'}>
+      <AvatarCard avatar={avatar}/>
+      <Typography>{name}</Typography>
+    </Stack>
+    </Link>
+    )
+})
 
 export default Groups
