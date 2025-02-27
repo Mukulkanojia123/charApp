@@ -1,16 +1,24 @@
-import { KeyboardBackspace as KeyboardBackspaceIcon, Menu as MenuIcon } from '@mui/icons-material'
+import { Done as DoneIcon, Edit as EditIcon, KeyboardBackspace as KeyboardBackspaceIcon, Menu as MenuIcon } from '@mui/icons-material'
 import { Box, Drawer, Grid2, IconButton, Stack, Tooltip, Typography } from '@mui/material'
 import { matBlack } from '../components/constants/color'
 import React, { memo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {Link} from '../components/styles/StyledComponents'
 import AvatarCard from "../components/shared/AvatarCard";
 import {sampleChats} from "../components/constants/sampleData"
 
 const Groups = () => {
 
+  const chatId = useSearchParams()[0].get('group');
   const navigate = useNavigate();
+
+  console.log(chatId)
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [groupName, setGroupName] = useState('')
+  const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState('')
 
   const navigateBack = () =>{
     navigate('/')
@@ -21,6 +29,11 @@ const Groups = () => {
   }
 
   const handleMobileClose = () => setIsMobileMenuOpen(false)
+
+  const updateGroupName = () => {
+    setIsEdit(false)
+    console.log('update group name')
+  }
 
   const IconBtns = <>
   <Box>
@@ -56,7 +69,28 @@ const Groups = () => {
   </Tooltip>
   </Box>
   </>
-
+  const GroupName = <Stack 
+  direction={'row'}
+  alignItems={'center'}
+  justifyContent={'center'}
+  spacing={'1rem'}
+  padding={'3rem'}
+  >
+    {
+      isEdit ? (
+      <>
+      <TextField 
+      value = {groupNameUpdatedValue}
+      onChange = {(e)=> setGroupNameUpdatedValue(e.target.value)}/>
+      <IconButton onClick={updateGroupName}><DoneIcon/></IconButton>
+      </>
+      ) : ( <>
+      <Typography variant='h4'>{groupName}</Typography>
+      <IconButton onClick = {() => setIsEdit(true)}><EditIcon/></IconButton>
+      </>)   
+    }
+  </Stack>
+  
   return <Grid2 container height={"100vh"}>
     <Grid2 
     item
@@ -80,6 +114,9 @@ const Groups = () => {
       padding : '1rem 3rem'
     }}>
       {IconBtns}
+      {
+         groupName && GroupName
+      }
     </Grid2>
     <Drawer 
     sx={{
@@ -91,13 +128,13 @@ const Groups = () => {
     open = {isMobileMenuOpen} 
     onClose={handleMobileClose}
     >
-      <GroupList w = {'50vw'}/>
+      <GroupList w={'50vw'} myGroups={sampleChats} chatId={chatId}/>
     </Drawer>
   </Grid2>
 }
 
 const GroupList = ({w='100%', myGroups = [],chatId})=>(
-  <Stack>
+  <Stack w={w}>
     {
       myGroups.length > 0 ? (
         myGroups.map((group) =><GroupListItem key={group._id} group={group} chatId={chatId}/>)
