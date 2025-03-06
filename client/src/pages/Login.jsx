@@ -33,12 +33,16 @@ const Login = () => {
             backgroundImage : "linear-gradient(rgb(255, 225, 209), rgb(249, 159, 159))"
         }}
         >
-        <Container component={"main"} maxWidth='xs' sx={{
+        <Container 
+        component={"main"} 
+        maxWidth='xs' 
+        sx={{
             height:"100vh",
             display: 'flex',
             justifyContent : 'center',
             alignItems : 'center'
-        }}>
+        }}
+        >
             <Paper elevation={3} sx={{ padding: 4,
                  display: 'flex', 
                  flexDirection: 'column', 

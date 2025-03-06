@@ -7,10 +7,32 @@
 //   newMessageAlert, 
 //   index=0, 
 //   handleDeleteOpenChat
-export const sampleChats = [{
+export const sampleChats = [
+{
     avatar: ["https://www.w3schools.com/howto/img_avatar.png"],
     name: "amit patra",
     _id: '1',
+    groupChat: false,
+    members: ['1', '2']
+},
+{
+    avatar: ["https://www.w3schools.com/howto/img_avatar.png"],
+    name: "robert William",
+    _id: '2',
+    groupChat: false,
+    members: ['1', '2']
+},
+{
+    avatar: ["https://www.w3schools.com/howto/img_avatar.png"],
+    name: "Kanishka sharma",
+    _id: '3',
+    groupChat: false,
+    members: ['1', '2']
+},
+{
+    avatar: ["https://www.w3schools.com/howto/img_avatar.png"],
+    name: "Abhishak M",
+    _id: '4',
     groupChat: false,
     members: ['1', '2']
 },
@@ -21,7 +43,7 @@ export const sampleChats = [{
         "https://www.w3schools.com/howto/img_avatar.png"
     ],
     name: "Abhey",
-    _id: '2',
+    _id: '5',
     groupChat: true,
     members: ['1', '2']
 }]
