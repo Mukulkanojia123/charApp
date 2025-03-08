@@ -7,6 +7,7 @@ import { InputBox } from '../components/styles/StyledComponents'
 import FileMenu from '../components/dialogs/FileMenu'
 import { sampleMessage } from '../components/constants/sampleData'
 import MessageComponent from '../components/shared/MessageComponent'
+import { grayColor } from '../components/constants/color'
 
 const Chat = () => {
   const user = {
@@ -22,6 +23,7 @@ const Chat = () => {
     boxSizing={'border-box'}
     padding={'1rem'}
     spacing={'1rem'}
+    bgcolor={grayColor}
     height={'90%'}
     sx={{
       overflowX : 'hidden',

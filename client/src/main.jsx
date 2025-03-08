@@ -13,6 +13,8 @@ const Login = lazy(() => import('./pages/Login'));
 const Chat = lazy(() => import('./pages/Chat'));
 const Groups = lazy(() => import('./pages/Groups'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin.jsx'))
+const Dashboard = lazy(() => import('./pages/admin/Dashboard.jsx'))
 
 const user = true;
 
@@ -38,6 +40,14 @@ const appRouter = createBrowserRouter([
             <Login />
           </ProtectRoute>
         ),
+      },
+      {
+        path : '/admin',
+        element : <AdminLogin/>
+      },
+      {
+        path : '/admin/dashboard',
+        element : <Dashboard/>
       },
       { path: '*', element: <NotFound /> },
     ],
