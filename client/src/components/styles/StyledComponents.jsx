@@ -32,5 +32,14 @@ outline : none;
 padding : 0 3rem;
 border-radius : 1.5rem;
 background-color : ${grayColor}
+`
 
+export const SearchField = styled("input")`
+  padding : 1rem 2rem;
+  width : 20vmax;
+  border : none;
+  outline : none;
+  border-radius: 1.5rem;
+  background-color : ${grayColor};
+  font-size : 1.1rem;
 `

@@ -15,6 +15,9 @@ const Groups = lazy(() => import('./pages/Groups'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin.jsx'))
 const Dashboard = lazy(() => import('./pages/admin/Dashboard.jsx'))
+const UserManagement = lazy(() => import('./pages/admin/UserManagement.jsx'))
+const ChatManagement = lazy(() => import('./pages/admin/ChatManagement.jsx'))
+const MessagesManagement = lazy(() => import('./pages/admin/MessageManagement.jsx'))
 
 const user = true;
 
@@ -48,6 +51,18 @@ const appRouter = createBrowserRouter([
       {
         path : '/admin/dashboard',
         element : <Dashboard/>
+      },
+      {
+        path : '/admin/users-management',
+        element : <UserManagement/>
+      },
+      {
+        path : '/admin/chats-management',
+        element : <ChatManagement/>
+      },
+      {
+        path : '/admin/messages-management',
+        element : <MessagesManagement/>
       },
       { path: '*', element: <NotFound /> },
     ],

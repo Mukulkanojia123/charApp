@@ -83,22 +83,28 @@ const Sidebar = (w = "100%")=>{
     }
     <Link
      onClick={logoutHandler}
-     >
+    >
         <Stack direction={'row'} alignItems={'center'} spacing={'1rem'}>
-                <ExitToAppIcon/>
-            <Typography>{tab.name}</Typography>
+            <ExitToAppIcon/>
+            <Typography fontSize={'1.2rem'}>{tab.name}</Typography>
         </Stack>
     </Link>
     </Stack>
     </Stack>
 )} 
 
+
+
+const isAdmin = false;
+
 const AdminLayout = ({children}) => {   // that is component that wrrap under admin layout
     
     const [isMobile, setIsMobile] = useState(false);
 
     const handleMobile = ()=> setIsMobile(!isMobile);
-    const handleClose = () => setIsMobile(false)
+    const handleClose = () => setIsMobile(false);
+
+    if(!isAdmin) return <Navigate to='/admin'/>
 
   return (
     <Grid container minHeight={'100vh'}>
