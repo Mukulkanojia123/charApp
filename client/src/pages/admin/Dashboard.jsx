@@ -4,6 +4,8 @@ import { Box, Container, Paper, Stack, Typography } from '@mui/material'
 import { AdminPanelSettings as AdminPanelSettingsIcon, Group as GroupIcon, Message as MessageIcon, Notifications as NotificationsIcon, Person as PersonIcon} from '@mui/icons-material'
 import moment from 'moment'
 import { CurveButton, SearchField } from '../../components/styles/StyledComponents'
+import { matBlack } from '../../components/constants/color'
+import { DoughnutChart, LineChart } from '../../components/specific/Charts'
 
 
 
@@ -74,7 +76,7 @@ const Dashboard = () => {
       }}
       >
         <Typography variant={'h5'}>Last Messages</Typography>
-        {'Chat'}
+        <LineChart value={[23, 20 , 30 , 16, 27, 10]}/>
       </Paper>
 
       <Paper
@@ -91,7 +93,7 @@ const Dashboard = () => {
         height : '25rem'
       }}
       >
-        {"Dougnut Chart"}
+        <DoughnutChart/>
         <Stack
         postition = {'absolute'}
         direction={'row'}
@@ -114,14 +116,39 @@ const Dashboard = () => {
   </AdminLayout>
 }
 
-const Widget = ({title, value, Icon}) => <Paper>
+const Widget = ({title, value, Icon}) => (
+<Paper
+elevation={3}
+sx={{
+  padding : '2rem',
+  margin : "2rem 0",
+  borderRadius : '1.5rem',
+  width : '20rem',
+}}
+>
   <Stack alignItems={'center'} spacing={'1rem'}>
-   <Typography>{value}</Typography>
-   <Stack>
+   <Typography
+   sx={{
+    color : 'rgba(0,0,0,0.7)',
+    borderRadius : '50%',
+    border : `5px solid ${matBlack}`,
+    width : '5rem',
+    height : '5rem',
+    display : 'flex',
+    justifyContent : 'center',
+    alignItems : 'center'
+   }}
+   >{value}</Typography>
+   <Stack
+   direction={'row'}
+   spacing={'1rem'}
+   alignItems={'center'}
+   >
     {Icon}
     <Typography>{title}</Typography>
    </Stack>
   </Stack>
    </Paper>
+   )
 
 export default Dashboard

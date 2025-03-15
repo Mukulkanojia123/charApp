@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { grayColor, matBlack } from '../constants/color';
 import { Box, Drawer, IconButton, Stack, styled, Typography, } from '@mui/material';
 import { Close as CloseIcon, Dashboard as DashboardIcon, ExitToApp as ExitToAppIcon, Groups as GroupIcon, ManageAccounts as ManageAccountsIcon, Menu as MenuIcon, Message as MessageIcon} from '@mui/icons-material';
-import { useLocation, Link as LinkComponent} from 'react-router-dom';
+import { useLocation, Link as LinkComponent, Navigate} from 'react-router-dom';
 // import { adminTabs } from '../constants/route';
 // import { Link } from '../styles/StyledComponents';
 
@@ -86,7 +86,7 @@ const Sidebar = (w = "100%")=>{
     >
         <Stack direction={'row'} alignItems={'center'} spacing={'1rem'}>
             <ExitToAppIcon/>
-            <Typography fontSize={'1.2rem'}>{tab.name}</Typography>
+            <Typography fontSize={'1.2rem'}>logout</Typography>
         </Stack>
     </Link>
     </Stack>
@@ -95,7 +95,7 @@ const Sidebar = (w = "100%")=>{
 
 
 
-const isAdmin = false;
+const isAdmin = true;
 
 const AdminLayout = ({children}) => {   // that is component that wrrap under admin layout
     
@@ -105,6 +105,7 @@ const AdminLayout = ({children}) => {   // that is component that wrrap under ad
     const handleClose = () => setIsMobile(false);
 
     if(!isAdmin) return <Navigate to='/admin'/>
+   
 
   return (
     <Grid container minHeight={'100vh'}>
