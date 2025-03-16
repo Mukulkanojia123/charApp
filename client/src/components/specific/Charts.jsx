@@ -12,8 +12,9 @@ import {
     plugins,
     scales
 } from 'chart.js';
-import { BorderColor } from '@mui/icons-material';
+import { BorderColor, OfflineShareTwoTone } from '@mui/icons-material';
 import { purple, purpleLight } from '../constants/color';
+import { getLast7Days } from '../../lib/features';
 
 ChartJs.register(
     CategoryScale,
@@ -24,6 +25,8 @@ ChartJs.register(
     ArcElement,
     Legend
 );
+
+const labels = getLast7Days()
 
  const linerChartOptions =  {
     responsive : true,
@@ -53,7 +56,7 @@ ChartJs.register(
  const LineChart = ({value = []}) => {
 
     const data = {
-       labels : ['january', 'Febuary', 'March', "April", "May", "June", "July"],
+       labels ,
        datasets : [
         {
         data : value,
@@ -70,9 +73,46 @@ ChartJs.register(
     <Line data={data} options={linerChartOptions}/>
   )
 }
- const DoughnutChart = () => {
+
+
+const doughnutChartOptions = {
+    responsive : true,
+    plugins : {
+        legend : {
+            display : false,
+        },
+        // title : {
+        //     display : false,
+        // }
+    },
+    cutout : 120,
+    
+}
+
+ const DoughnutChart = ({value = [], labels = []}) => {
+    
+    const data = {
+        labels ,
+        datasets : [
+         {
+         data : value,
+        //  label : 'Total Chats vs Group Charts',
+         
+         backgroundColor : [purpleLight, orangeLight],
+         hoverBackgroundColor : [purple, orange],
+         borderColor : [purple, orange],
+         Offset : 40,
+        },
+         
+     ]
+    }
+
+
   return (
-    <div>Charts</div>
+    <Doughnut 
+    style={{zIndex : 10}}
+    data={data} 
+    options={doughnutChartOptions}/>
   )
 }
 

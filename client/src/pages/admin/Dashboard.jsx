@@ -64,7 +64,19 @@ const Dashboard = () => {
     {
       Appbar
     }
-    <Stack direction={'row'} spacing={'2rem'} flexWrap={'wrap'}>
+    <Stack direction={{
+      xs : 'column',
+      lg : 'row'
+    }} 
+     
+    flexWrap={'wrap'} 
+    justifyContent={'center'}
+    alignItems={{
+      xs : 'center',
+      lg : 'stretch'
+    }}
+    sx={{gap : '2rem'}}
+    >
       <Paper
       elevation={3}
       sx={{
@@ -75,8 +87,8 @@ const Dashboard = () => {
         height : '25rem'
       }}
       >
-        <Typography variant={'h5'}>Last Messages</Typography>
-        <LineChart value={[23, 20 , 30 , 16, 27, 10]}/>
+      <Typography variant={'h5'}>Last Messages</Typography>
+      <LineChart value={[23, 20 , 30 , 16, 27, 10]}/>
       </Paper>
 
       <Paper
@@ -88,12 +100,13 @@ const Dashboard = () => {
         justifyContent : 'center',
         alignItems : 'center',
         width : {xs : '100%', sm : '50%'},
-        postition : '100%',
+        postition : 'relative',
+        width : '100%',
         maxWidth : '25rem',
-        height : '25rem'
+        // height : '25rem'
       }}
       >
-        <DoughnutChart/>
+        <DoughnutChart labels={["Single Chat", "Group Chats"]} value={[23 , 66]}/>
         <Stack
         postition = {'absolute'}
         direction={'row'}
