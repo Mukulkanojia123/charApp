@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import AdminLayout from '../../components/layout/AdminLayout'
 import Table from '../../components/shared/Table'
-import { Avatar } from '@mui/material'
+import { Avatar } from '@mui/material';
+import {dashboardData} from '../../components/constants/sampleData';
+import {transforImage} from "../../lib/features"
 
 
 const columns = [
@@ -49,7 +51,15 @@ const columns = [
 ]
 const UserManagement = () => {
 
-  const [rows, setRows] = useState([])
+  const [rows, setRows] = useState([]);
+
+  useEffect(()=>{
+    setRows(dashboardData.map((i) => ({
+      ...i, 
+      id : i._id, 
+      avatar : transforImage(i.avatar, 50)
+    })))
+  })
 
   return (
     <AdminLayout>
