@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../components/layout/AdminLayout'
+import { Avatar, Stack } from '@mui/material'
+import Table from '../../components/shared/Table'
+import { dashboardData } from '../../components/constants/sampleData'
+import {transforImage} from '../../lib/features'
+import moment from 'moment'
 
 
 const columns = [
@@ -32,7 +37,7 @@ const columns = [
     headerClassName : 'table-header',
     width : 200,
     renderCell: (params) => (
-      <Stack>
+      <Stack direction={'row'} spacing={'1rem'} alignItem={'center'}>
     <Avatar 
     alt={params.row.sender.name} 
     src={params.row.sender.avatar}/>
@@ -61,10 +66,24 @@ const columns = [
 ]
 
 const MessageManagement = () => {
+
+  const [rows, setRows] = useState()
+  useEffect(()=>{
+    setRows(dashboardData.messages.map((i)=>({
+      ...i,
+      id : i._id,
+      sender : {
+        name : i.sender.name,
+        avatar :transforImage(i.sender.avatar,50),
+      },
+      createdAt : moment(i.createdAt).format('MMMM Do YYYY, h:mm:ss a'),
+    })))
+  },[])
+
   return (
     <AdminLayout>
 
-        <div>MessageManagement</div>
+        <Table heading={'All Messages'} columns={columns} rows={rows} />
     </AdminLayout>
   )
 }

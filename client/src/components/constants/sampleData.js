@@ -107,6 +107,7 @@ export const sampleMessage = [
             name : 'aman'
         },
         chat : "chatId",
+        groupChat : false,
         createAt : "2024-02-12T10:41:30.630Z" 
 
     },
@@ -120,10 +121,11 @@ export const sampleMessage = [
         content : 'ayaa h message2',
         _id : 'vowi8u0_8er09f-e8fe2',
         sender : {
-            _id : "skdnfowi",
+            avatar : "https://www.w3schools.com/howto/img_avatar.png",
             name : 'aman2'
         },
         chat : "chatId2",
+        groupChat : true,
         createAt : "2024-02-12T10:41:30.630Z" 
 
     }
@@ -147,5 +149,52 @@ export const dashboardData = {
             username : 'john_boi',
             groups : 5,
         },
-    ]
+    ],
+    chats : [{
+        name : 'Labadbass Group',
+        avatar : ['https://www.w3schools.com/howto/img_avatar.png'],
+        _id : '1',
+        groupChat : false,
+        members : [
+            {_id : '1', avatar : "https://www.w3schools.com/howto/img_avatar.png"},
+            {_id : '2', avatar : 'https://www.w3schools.com/howto/img_avatar.png'}
+        ],
+        totalMembers : 2,
+        totalMessage : 20,
+        creator : {
+            name : 'Jon due',
+            avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+        },
+    },
+    {
+        name : 'Friends Group',
+        avatar : ['https://www.w3schools.com/howto/img_avatar.png'],
+        _id : '1',
+        groupChat : false,
+        members : ['1','2'],
+        totalMembers : 2,
+        totalMessage : 20,
+        creator : {
+            name : 'Jon due',
+            avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+        },
+    }
+],
+messages : [
+    {
+        attachments : [],
+        content : 'Nitin ka message',
+        _id : 'kdoif38ne88ryudf8',
+        sender : {
+            _id:"user._id",
+            name : 'Chaman',
+        },
+        chat : 'chatId',
+        groupChat : false,
+        createdAt : '2024-02-12T10:41:30.630Z',
+    }
+]
+
 }
+
+

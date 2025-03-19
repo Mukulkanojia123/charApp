@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import AdminLayout from '../../components/layout/AdminLayout'
-import Table from '../../components/shared/Table'
-import { Avatar } from '@mui/material';
-import {dashboardData} from '../../components/constants/sampleData';
-import {transforImage} from "../../lib/features"
-import AvatarCard from "../../components/shared/AvatarCard"
+import { Avatar, Box, Stack } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { dashboardData } from '../../components/constants/sampleData';
+import AdminLayout from '../../components/layout/AdminLayout';
+import AvatarCard from "../../components/shared/AvatarCard";
+import RenderAttachment from "../../components/shared/RenderAttachment";
+import Table from '../../components/shared/Table';
+import { fileFormat, transforImage } from "../../lib/features";
 
 
 const columns = [
@@ -20,10 +21,38 @@ const columns = [
     headerClassName : 'table-header',
     width : 150,
     renderCell: (params) => (
-    <Avatar 
-    alt={params.row.name} 
-    src={params.row.avatar}/>
+    <AvatarCard  
+    avatar={params.row.avatar}/>
     )
+  },
+  {
+    field : 'attachment',
+    headerName : 'Attachment',
+    headerClassName : 'table-header',
+    width : 200,
+    renderCell: (params) => {
+      const {attachments} = params.row;
+
+      return attachments?.length > 0 ? attachments.map((i)=>{
+        const url = i.url;
+        const file = fileFormat(url);
+        return <Box>
+          <a href={url}
+          download
+          target='_blank'
+          style={{
+            color : 'black'
+          }}
+          >
+            {RenderAttachment(file, url)}
+          </a>
+        </Box>
+      }) : "No Attachment"
+
+    // return <AvatarCard 
+    // alt={params.row.name} 
+    // avatar={params.row.avatar}/>
+    }
   },
   {
     field : "name",
@@ -49,13 +78,13 @@ const columns = [
     headerName : "created By",
     headerClassName : 'table-header',
     width : 250,
-    renderCel :  (params) => (
+    renderCell :  (params) => (
       <Stack>
     <Avatar 
-    alt={params.row.sender.name} 
-    src={params.row.sender.avatar}/>
-        <span>{params.row.sender.name}</span>
-        </Stack>
+    alt={params.row.creator.name} 
+    src={params.row.creator.avatar}/>
+        <span>{params.row.creator.name}</span>
+    </Stack>
     )
   },
 ]
@@ -64,11 +93,16 @@ const ChatManagement = () => {
   const [rows, setRows] = useState([]);
 
   useEffect(()=>{
-    // setRows(dashboardData.map((i) => ({
-    //   ...i, 
-    //   id : i._id, 
-    //   avatar : transforImage(i.avatar, 50)
-    // })))
+    setRows(dashboardData.map((i) => ({
+      ...i, 
+      id : i._id, 
+      avatar : i.avatar.map((i) => transforImage(i, 50)),
+      members : i.members.map((i) => transforImage(i.avatar, 50)),
+      creator : {
+        name : i.creator.name,
+        avatar : transforImage(i.creator.avatar, 50)
+      }
+    })))
   })
 
   return (
@@ -76,7 +110,8 @@ const ChatManagement = () => {
         <Table 
         heading={'All Chats'} 
         columns={columns} 
-        rows={rows} 
+        rows={rows}
+        rowHeight={200} 
         />
     </AdminLayout>
   )
