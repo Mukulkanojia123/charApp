@@ -25,7 +25,7 @@ const userSchema = new Schema({
             required : true
         },
         url : {
-            type : true,
+            type : String,
             required : true
         }
     }
