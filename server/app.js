@@ -15,6 +15,7 @@ const mongoUri = process.env.MONGO_URI
 connectDB(mongoUri)
 
 app.use(express.json());
+// app.use(express.urlencoded())
 
 app.use('/user',userRouter )
 
