@@ -1,5 +1,5 @@
 import { User } from "../models/user.js";
-import { sendToken } from "../utlis/feature.js";
+import { sendToken , cookieOption} from "../utlis/feature.js";
 import {TryCatch} from "../middlewares/error.js"
 import { ErrorHandler } from "../utlis/utility.js";
 import { compare } from "bcrypt";
@@ -36,10 +36,34 @@ const login = TryCatch(async(req, res, next)=>{
 
 })
 
-const getMyProfile = async(req, res) => {}
+const getMyProfile = TryCatch(async(req, res) => {
+
+    const user = await User.findById(req.user);
+
+    return res.status(200).json({
+        success : true,
+        user
+    })
+})
+
+const logout = TryCatch(async(req, res, next)=>{
+
+    return res.status(200).cookie("chat-token", "", {...cookieOption, maxAge : 0}).json({
+        success : true,
+        message : 'logout success full'
+    })
+})
+
+const searchUser = TryCatch(async(req, res, next)=>{
+    const {name = ""} = res.user;
+
+
+})
 
 export {
     login,
     newUser,
-    getMyProfile
+    getMyProfile,
+    logout,
+    searchUser
 }
