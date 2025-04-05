@@ -1,6 +1,6 @@
-import { TryCatch } from "../middlewares/error";
-import { ErrorHandler } from "../utlis/utility";
-import Chat from "../models/chat"
+import { TryCatch } from "../middlewares/error.js";
+import { ErrorHandler } from "../utlis/utility.js";
+import {Chat} from "../models/chat.js"
 
 
 const newGroupChat = TryCatch(async(req, res, next) => {
@@ -17,7 +17,6 @@ const newGroupChat = TryCatch(async(req, res, next) => {
         creator : req.user,
         members : allMember
     })
-
 
 
 }) 

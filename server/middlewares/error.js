@@ -1,10 +1,10 @@
 
 const errorMiddleware = (err, req, res, next)=>{
     err.message ||= "Invalid Server Error";
-    err.status||= 500
+    err.statusCode||= 500
 
 
-    return res.status(err.statuCode).json({
+    return res.status(err.statusCode).json({
         success : false,
         message : err.message
     })

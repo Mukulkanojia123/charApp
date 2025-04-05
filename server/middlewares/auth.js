@@ -1,6 +1,6 @@
-import { Jwt } from "jsonwebtoken";
-import { ErrorHandler } from "../utlis/utility";
-import { TryCatch } from "./error";
+import  Jwt  from "jsonwebtoken";
+import { ErrorHandler } from "../utlis/utility.js";
+import { TryCatch } from "./error.js";
 
 
 

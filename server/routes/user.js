@@ -15,7 +15,7 @@ app.use(isAuthenticate)
 
 app.get('/me', getMyProfile)
 app.get('/logout', logout)
-app.get('/me', getMyProfile)
+// app.get('/me', getMyProfile)
 app.get('/search', searchUser)
 
 
