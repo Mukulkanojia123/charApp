@@ -34,5 +34,9 @@ const sendToken = (res, user, code, message) =>{
 
 }
 
+const emitEvent = (req, event, user, data) =>{
 
-export {connectDB, sendToken, cookieOption}
+}
+
+
+export {connectDB, sendToken, cookieOption, emitEvent}

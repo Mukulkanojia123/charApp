@@ -58,9 +58,13 @@ const logout = TryCatch(async(req, res, next)=>{
 })
 
 const searchUser = TryCatch(async(req, res, next)=>{
-    const {name = ""} = res.user;
+    const {name = ""} = res.query;
 
 
+    return res.status(200).json({
+        success: true,
+        name,
+      });
 })
 
 export {
