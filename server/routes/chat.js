@@ -1,5 +1,5 @@
 import express from "express";
-import { getMyChat, getMyGroup, newGroupChat } from "../controllers/chat.js";
+import { addMembers, getMyChat, getMyGroup, leaveGroup, newGroupChat, removeMember } from "../controllers/chat.js";
 import { isAuthenticate } from "../middlewares/auth.js";
 
 
@@ -12,7 +12,10 @@ app.use(isAuthenticate)
 app.post('/new', newGroupChat)
 app.post('/my', getMyChat)
 app.post('/my/groups', getMyGroup)
+app.put("/addmember", addMembers)
+app.put("/removemember", removeMember)
 
+app.delete('/leave/:id', leaveGroup)
 
 
 

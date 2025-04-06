@@ -1,6 +1,7 @@
 import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utlis/utility.js";
 import {Chat} from "../models/chat.js"
+import { User } from "../models/user.js";
 import { emitEvent } from "../utlis/feature.js";
 import { ALERT, REFETCH_CHAT } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
@@ -85,4 +86,116 @@ const getMyGroup = TryCatch(async(req, res, next)=>{
       })
 })
 
-export {newGroupChat, getMyChat,getMyGroup}
+const addMembers = TryCatch(async(req, res, next)=>{
+
+  const {chatId, members} = req.body;
+
+  const chat = Chat.findById(chatId);
+
+  if(!chat) return next(new ErrorHandler("chat not found", 404))
+
+  if(!chat.groupChat) return next(new ErrorHandler("This in not a group chat", 400))
+
+  if(chat.creator.toString() !== req.user.toString()) return next(new ErrorHandler("you are not allow to add member",403))
+
+    const allNewMembersPromise = members.map((i) => User.findById(i, "name"));
+
+    const allNewMembers = await Promise.all(allNewMembersPromise);
+  
+    const uniqueMembers = allNewMembers
+      .filter((i) => !chat.members.includes(i._id.toString()))
+      .map((i) => i._id);
+  
+    chat.members.push(...uniqueMembers);
+  
+    if (chat.members.length > 100)
+      return next(new ErrorHandler("Group members limit reached", 400));
+  
+    await chat.save();
+  
+    const allUsersName = allNewMembers.map((i) => i.name).join(", ");
+  
+    emitEvent(
+      req,
+      ALERT,
+      chat.members,
+      `${allUsersName} has been added in the group`
+    );
+  
+    emitEvent(req, REFETCH_CHAT, chat.members);
+  
+    return res.status(200).json({
+      success: true,
+      message: "Members added successfully",
+    });
+
+  
+})
+
+const removeMember = TryCatch(async(req, res, next) =>{
+    const {chatId, userId} = req.body;
+
+    const [chat, userThatWillBeRemoved] = await Promise.all([
+      Chat.findById(chatId),
+      User.findById(userId),
+    ])
+
+    if(!chat) return next(new ErrorHandler("chat not found", 404))
+
+    if(!chat.groupChat) return next(new ErrorHandler("This in not a group chat", 400))
+    
+    if(chat.creator.toString() !== req.user.toString()) return next(new ErrorHandler("you are not allow to remove member",403))
+
+    if(chat.members.length <= 3) return next(new ErrorHandler('chat atleast have 3 members', 400))
+
+    chat.members = chat.members.filter((member) => member.toString() !== userId.toString());
+
+    await  chat.save();
+
+    emitEvent(req, REFETCH_CHAT, allChatMembers);
+
+    return res.status(200).json({
+      success: true,
+      message: "Member removed successfully",
+    });
+    
+
+})
+const leaveGroup = TryCatch(async(req, res, next) =>{
+    const chatId = req.params.id
+
+    const chat = Chat.findById(chatId)
+
+    if(!chat) return next(new ErrorHandler("chat not found", 404))
+      const remainingMembers = chat.members.filter(
+        (member) => member.toString() !== req.user.toString()
+      );
+    
+      if (remainingMembers.length < 3)
+        return next(new ErrorHandler("Group must have at least 3 members", 400));
+    
+      if (chat.creator.toString() === req.user.toString()) {
+        const randomElement = Math.floor(Math.random() * remainingMembers.length);
+        const newCreator = remainingMembers[randomElement];
+        chat.creator = newCreator;
+      }
+    
+      chat.members = remainingMembers;
+    
+      const [user] = await Promise.all([
+        User.findById(req.user, "name"),
+        chat.save(),
+      ]);
+    
+      emitEvent(req, ALERT, chat.members, {
+        chatId,
+        message: `User ${user.name} has left the group`,
+      });
+    
+      return res.status(200).json({
+        success: true,
+        message: "Leave Group Successfully",
+      });    
+
+})
+export {newGroupChat, getMyChat,getMyGroup, addMembers, removeMember, leaveGroup}
