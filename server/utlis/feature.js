@@ -38,5 +38,9 @@ const emitEvent = (req, event, user, data) =>{
 
 }
 
+const deletFilesFromCloudinary = () => {
 
-export {connectDB, sendToken, cookieOption, emitEvent}
+}
+
+
+export {connectDB, sendToken, cookieOption, emitEvent, deletFilesFromCloudinary}

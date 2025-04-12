@@ -2,7 +2,7 @@ import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utlis/utility.js";
 import {Chat} from "../models/chat.js"
 import { User } from "../models/user.js";
-import { emitEvent } from "../utlis/feature.js";
+import { deletFilesFromCloudinary, emitEvent } from "../utlis/feature.js";
 import { ALERT, REFETCH_CHAT, NEW_MESSAGE_ALERT,NEW_MESSAGE } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
 import Message from '../models/message.js'
@@ -259,7 +259,7 @@ const getChatDetails = TryCatch(async (req, res, next) => {
   if (req.query.populate === "true") {
     const chat = await Chat.findById(req.params.id)
       .populate("members", "name avatar")
-      .lean();
+      .lean(); // we use this to make the classic JS object because if we dont use it then we need to save it and it change DB so we use this
 
     if (!chat) return next(new ErrorHandler("Chat not found", 404));
 
@@ -360,6 +360,42 @@ const deleteChat = TryCatch(async (req, res, next) => {
 });
 
 
+
+const getMessages = TryCatch(async (req, res, next) => {
+  const chatId = req.params.id;
+  const { page = 1 } = req.query;
+
+  const resultPerPage = 20;
+  const skip = (page - 1) * resultPerPage;
+
+  const chat = await Chat.findById(chatId);
+
+  if (!chat) return next(new ErrorHandler("Chat not found", 404));
+
+  if (!chat.members.includes(req.user.toString()))
+    return next(
+      new ErrorHandler("You are not allowed to access this chat", 403)
+    );
+
+  const [messages, totalMessagesCount] = await Promise.all([
+    Message.find({ chat: chatId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(resultPerPage)
+      .populate("sender", "name")
+      .lean(),
+    Message.countDocuments({ chat: chatId }),
+  ]);
+
+  const totalPages = Math.ceil(totalMessagesCount / resultPerPage) || 0;
+
+  return res.status(200).json({
+    success: true,
+    messages: messages.reverse(),
+    totalPages,
+  });
+});
+
 export {
   newGroupChat, 
   getMyChat,
@@ -370,5 +406,6 @@ export {
   sendAttachments,
   getChatDetails,
   renameGroup,
-  deleteChat
+  deleteChat,
+  getMessages
 }
