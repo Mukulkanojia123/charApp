@@ -1,13 +1,16 @@
 import express from "express";
 import { getMyProfile, login, newUser, logout, searchUser  } from "../controllers/user.js";
-import {multerUpload} from "../middlewares/multer.js"
+import {singleAvatar} from "../middlewares/multer.js"
 import { isAuthenticate } from "../middlewares/auth.js";
+import { registerValidator, validateHandler } from "../lib/validators.js";
 
 
 const app = express.Router();
 
 app.post('/new', 
-    // multerUpload.single('avatar'),
+     singleAvatar,
+     registerValidator(),
+     validateHandler,
     newUser)
 app.get('/', login)
 
