@@ -3,6 +3,7 @@ import { sendToken , cookieOption} from "../utlis/feature.js";
 import {TryCatch} from "./../middlewares/error.js"
 import { ErrorHandler } from "../utlis/utility.js";
 import { compare } from "bcrypt";
+import { Chat } from "../models/chat.js";
 
 
 const newUser = TryCatch(async(req, res) =>{
@@ -60,6 +61,20 @@ const logout = TryCatch(async(req, res, next)=>{
 const searchUser = TryCatch(async(req, res, next)=>{
     const {name = ""} = res.query;
 
+    const myChat = await Chat.find({groupChat : false, members : req.user})
+
+    const allUserFromMyChats = myChat.map((chat) => chat.members).flat();
+
+    const allUsersExceptMeAndFriends = await User.find({
+        _id : {$nin : allUserFromMyChats},                     // not in operator
+        name : {$regex : name , $option : 'i' }
+    })
+
+    const users = allUsersExceptMeAndFriends.map(({ _id, name, avatar }) => ({
+        _id,
+        name,
+        avatar: avatar.url,
+      }));
 
     return res.status(200).json({
         success: true,
