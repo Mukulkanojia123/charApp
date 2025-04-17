@@ -151,6 +151,64 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
     });
   });
 
+  const getMyNotifications = TryCatch(async (req, res) => {
+    const requests = await Request.find({ receiver: req.user }).populate(
+      "sender",
+      "name avatar"
+    );
+  
+    const allRequests = requests.map(({ _id, sender }) => ({
+      _id,
+      sender: {
+        _id: sender._id,
+        name: sender.name,
+        avatar: sender.avatar.url,
+      },
+    }));
+  
+    return res.status(200).json({
+      success: true,
+      allRequests,
+    });
+  });
+  
+  const getMyFriends = TryCatch(async (req, res) => {
+    const chatId = req.query.chatId;
+  
+    const chats = await Chat.find({
+      members: req.user,
+      groupChat: false,
+    }).populate("members", "name avatar");
+  
+    const friends = chats.map(({ members }) => {
+      const otherUser = getOtherMember(members, req.user);
+  
+      return {
+        _id: otherUser._id,
+        name: otherUser.name,
+        avatar: otherUser.avatar.url,
+      };
+    });
+  
+    if (chatId) {
+      const chat = await Chat.findById(chatId);
+  
+      const availableFriends = friends.filter(
+        (friend) => !chat.members.includes(friend._id)
+      );
+  
+      return res.status(200).json({
+        success: true,
+        friends: availableFriends,
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        friends,
+      });
+    }
+  });
+  
 export {
     login,
     newUser,
@@ -158,5 +216,7 @@ export {
     logout,
     searchUser,
     sendFriendRequest,
-    acceptFriendRequest
+    acceptFriendRequest,
+    getMyNotifications,
+    getMyFriends
 }
