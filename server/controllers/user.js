@@ -6,6 +6,7 @@ import { compare } from "bcrypt";
 import { Chat } from "../models/chat.js";
 import { NEW_REQUEST } from "../constants/events.js";
 import { Request } from "../models/request.js";
+import { getOtherMember } from "../lib/helper.js";
 
 
 const newUser = TryCatch(async(req, res) =>{
@@ -42,15 +43,17 @@ const login = TryCatch(async(req, res, next)=>{
 
 })
 
-const getMyProfile = TryCatch(async(req, res) => {
+const getMyProfile = TryCatch(async (req, res, next) => {
+  const user = await User.findById(req.user);
 
-    const user = await User.findById(req.user);
+  if (!user) return next(new ErrorHandler("User not found", 404));
 
-    return res.status(200).json({
-        success : true,
-        user
-    })
-})
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
 
 const logout = TryCatch(async(req, res, next)=>{
 
