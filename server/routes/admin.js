@@ -1,5 +1,5 @@
 import express from "express";
-import { allUsers } from "../controllers/admin";
+import { allChats, allMessages, allUsers } from "../controllers/admin.js";
 // import {
 //   adminLogin,
 //   adminLogout,
@@ -20,8 +20,8 @@ app.get("/logout")
 
 
 app.get("/users", allUsers)
-app.get("/chat")
-app.get("/message")
+app.get("/chat", allChats)
+app.get("/message", allMessages)
 
 app.get("/stats")
 

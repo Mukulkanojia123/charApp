@@ -5,7 +5,7 @@ import { User } from "../models/user.js";
 import { deletFilesFromCloudinary, emitEvent } from "../utlis/feature.js";
 import { ALERT, REFETCH_CHAT, NEW_MESSAGE_ALERT,NEW_MESSAGE } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
-import Message from '../models/message.js'
+import {Message} from '../models/message.js'
 
 
 const newGroupChat = TryCatch(async(req, res, next) => {
