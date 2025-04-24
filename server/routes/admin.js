@@ -1,5 +1,5 @@
 import express from "express";
-import { allChats, allMessages, allUsers, getDashboardStats } from "../controllers/admin.js";
+import { adminLogin, allChats, allMessages, allUsers, getDashboardStats } from "../controllers/admin.js";
 // import {
 //   adminLogin,
 //   adminLogout,
@@ -9,13 +9,13 @@ import { allChats, allMessages, allUsers, getDashboardStats } from "../controlle
 //   getAdminData,
 //   getDashboardStats,
 // } from "../controllers/admin.js";
-// import { adminLoginValidator, validateHandler } from "../lib/validators.js";
+ import { adminLoginValidator, validateHandler } from "../lib/validators.js";
 // import { adminOnly } from "../middlewares/auth.js";
 
 const app = express.Router();
 
 app.get('/')
-app.post('/verify')
+app.post('/verify',adminLoginValidator,validateHandler,adminLogin)
 app.get("/logout")
 
 
