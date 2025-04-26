@@ -19,6 +19,7 @@ dotenv.config({
 
 const app = express();
 const mongoUri = process.env.MONGO_URI
+const adminSecretKey = process.env.ADMIN_SECRET_KEY || "adsasdsdfsdfsdfd";
 
 connectDB(mongoUri)
 

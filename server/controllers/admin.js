@@ -4,7 +4,8 @@ import { Chat } from "../models/chat.js";
 import { Message } from "../models/message.js";
 import { User } from "../models/user.js";
 import { ErrorHandler } from "../utlis/utility.js";
-import {cookieOption} from "../utlis/feature.js"
+import {cookieOption} from "../utlis/feature.js";
+import {adminSecretKey} from "../app.js"
 
 
 const adminLogin = TryCatch(async (req, res, next) => {
@@ -188,5 +189,6 @@ const allUsers = TryCatch(async (req, res) => {
     allMessages,
     getDashboardStats,
     adminLogin,
-    adminLogout
+    adminLogout,
+    getAdminData
   }
