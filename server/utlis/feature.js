@@ -1,5 +1,5 @@
+import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
-import jwt from 'jsonwebtoken'
 
 
 const connectDB = (url) => {
@@ -43,4 +43,4 @@ const deletFilesFromCloudinary = () => {
 }
 
 
-export {connectDB, sendToken, cookieOption, emitEvent, deletFilesFromCloudinary}
+export { connectDB, cookieOption, deletFilesFromCloudinary, emitEvent, sendToken };

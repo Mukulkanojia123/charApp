@@ -9,9 +9,13 @@ import { Request } from "../models/request.js";
 import { getOtherMember } from "../lib/helper.js";
 
 
-const newUser = TryCatch(async(req, res) =>{
+const newUser = TryCatch(async(req, res,next) =>{
     const {name, username, password,bio} = req.body;
     console.log("user rew")
+    const file = req.file;
+    
+    if(!file) return next(new ErrorHandler("Please upload avatar"))
+
     const avatar = {
         public_id : 'nowijfo',
         url : "https://newimage.com"
