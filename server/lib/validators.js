@@ -88,5 +88,5 @@ export {
   renameValidator,
   sendAttachmentsValidator,
   sendRequestValidator,
-  validateHandler,
+  validateHandler
 };
