@@ -9,7 +9,6 @@ import store from './redux/store.js';
 import Body from './body.jsx';
 
 
-
 // Root rendering with global Suspense
 createRoot(document.getElementById('root')).render(
   <StrictMode>
