@@ -45,9 +45,9 @@ app.use(express.json());
 app.use(cookieParser())
 // app.use(express.urlencoded())
 
-app.use('/user', userRouter)
-app.use('/chat', chatRouter)
-app.use('/admin', adminRoute)
+app.use('/api/v1/user', userRouter)
+app.use('api/v1/chat', chatRouter)
+app.use('api/v1/admin', adminRoute)
 
 
 // Error Handling Middleware
