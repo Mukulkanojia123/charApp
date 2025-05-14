@@ -1,5 +1,5 @@
 import React, { lazy, useEffect } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useBeforeUnload } from 'react-router-dom';
 import App from './App.jsx';
 import ProtectRoute from './components/auth/ProtectRoute.jsx';
 
@@ -18,18 +18,23 @@ const MessagesManagement = lazy(() => import('./pages/admin/MessageManagement.js
 
 import axios from 'axios'
 import { server } from './components/constants/config.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { userNotExists, userExists } from './redux/reducers/auth.js';
+import { LayoutLoader } from './components/layout/Loaders.jsx';
 
 
 const Body = () => {
 
-    const user = true;
+    const { user, loader } = useSelector((state) => state.auth);
+
+    const dispatch  = useDispatch()
 
   useEffect(()=>{
     axios
       .get(`${server}/api/v1/user/me`, { withCredentials: true })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  },[])
+      .then(({ data }) => dispatch(userExists(data.user)))
+      .catch((err) => dispatch(userNotExists()));
+  },[dispatch])
 
 // Router configuration
 const appRouter = createBrowserRouter([
@@ -80,7 +85,9 @@ const appRouter = createBrowserRouter([
 ]);
 
 
-  return (
+  return loader? (
+  <LayoutLoader/>
+):(
     <>
         <RouterProvider router={appRouter} />
     </>

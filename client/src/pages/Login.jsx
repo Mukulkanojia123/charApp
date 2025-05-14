@@ -5,13 +5,19 @@ import {CameraAlt as CameraAltIcon} from '@mui/icons-material'
 import { VisuallyHiddenInput } from '../components/styles/StyledComponents';
 import {useFileHandler, useInputValidation, useStrongPassword} from '6pp'
 import { usernamevalidator } from '../utils/validators';
+import toast from "react-hot-toast";
+import { useDispatch } from 'react-redux';
+import { server } from '../components/constants/config';
 
 
 const Login = () => {
 
-    const [isLogin , setIslogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const toggleLogin = () => setIslogin(!isLogin)
+    const toggleLogin = () => setIsLogin(!isLogin)
+
+    const dispatch = useDispatch()
 
     const name = useInputValidation("")
     const bio = useInputValidation("")
@@ -20,11 +26,80 @@ const Login = () => {
 
     const avatar = useFileHandler('single')
 
-    const handleSighup = (e) =>{
-        e.preventDefault()
+    const handleSighup = async(e) =>{
+        e.preventDefault();
+
+         const toastId = toast.loading("Signing Up...");
+        setIsLoading(true);
+
+         const formData = new FormData();
+        formData.append("avatar", avatar.file);
+        formData.append("name", name.value);
+        formData.append("bio", bio.value);
+        formData.append("username", username.value);
+        formData.append("password", password.value);
+
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    try {
+      const { data } = await axios.post(
+        `${server}/api/v1/user/new`,
+        formData,
+        config
+      );
+
+      dispatch(userExists(data.user));
+      toast.success(data.message, {
+        id: toastId,
+      });
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something Went Wrong", {
+        id: toastId,
+      });
+    } finally {
+      setIsLoading(false);
     }
-    const handleLogin = (e) =>{
-        e.preventDefault()
+    }
+
+    
+    const handleLogin = async(e) =>{
+         e.preventDefault();
+
+    const toastId = toast.loading("Logging In...");
+
+    setIsLoading(true);
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const { data } = await axios.post(
+        `${server}/api/v1/user/login`,
+        {
+          username: username.value,
+          password: password.value,
+        },
+        config
+      );
+      dispatch(userExists(data.user));
+      toast.success(data.message, {
+        id: toastId,
+      });
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something Went Wrong", {
+        id: toastId,
+      });
+    } finally {
+      setIsLoading(false);
+    }
     }
     
     return (

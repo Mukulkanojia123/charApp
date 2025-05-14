@@ -43,6 +43,10 @@ connectDB(mongoUri)
 
 app.use(express.json());
 app.use(cookieParser())
+app.use(cors({
+    origin : ['http://localhost:5173', 'http://localhost:5173', process.env.CLIENT_URL],
+    credentials : true
+}))
 // app.use(express.urlencoded())
 
 app.use('/api/v1/user', userRouter)
