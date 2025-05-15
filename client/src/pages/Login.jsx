@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { Stack,Button, Container, Paper, Typography, Avatar, IconButton } from '@mui/material'
+import { useFileHandler, useInputValidation, useStrongPassword } from '6pp';
+import { CameraAlt as CameraAltIcon } from '@mui/icons-material';
+import { Avatar, Button, Container, IconButton, Paper, Stack, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import {CameraAlt as CameraAltIcon} from '@mui/icons-material'
-import { VisuallyHiddenInput } from '../components/styles/StyledComponents';
-import {useFileHandler, useInputValidation, useStrongPassword} from '6pp'
-import { usernamevalidator } from '../utils/validators';
+import { useState } from 'react';
 import toast from "react-hot-toast";
 import { useDispatch } from 'react-redux';
 import { server } from '../components/constants/config';
+import { VisuallyHiddenInput } from '../components/styles/StyledComponents';
+import { usernamevalidator } from '../utils/validators';
 
 
 const Login = () => {

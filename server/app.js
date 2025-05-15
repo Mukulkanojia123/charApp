@@ -9,6 +9,7 @@ import { v4 as uuid } from "uuid";
 import cors from "cors";
 import { createUser } from "./seeders/user.js";
 import { createGroupChats, createSingleChats } from "./seeders/chat.js";
+import { v2 as cloudinary } from "cloudinary";
 
 
 
@@ -36,6 +37,12 @@ const userSocketIDs = new Map();
 const onlineUsers = new Set();
 
 connectDB(mongoUri)
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // createUser(10);
 // createGroupChats(10)

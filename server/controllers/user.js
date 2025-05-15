@@ -1,5 +1,5 @@
 import { User } from "../models/user.js";
-import { sendToken , cookieOption} from "../utlis/feature.js";
+import { sendToken , cookieOption, uploadFilesToCloudinary} from "../utlis/feature.js";
 import {TryCatch} from "./../middlewares/error.js"
 import { ErrorHandler } from "../utlis/utility.js";
 import { compare } from "bcrypt";
@@ -16,10 +16,12 @@ const newUser = TryCatch(async(req, res,next) =>{
     
     if(!file) return next(new ErrorHandler("Please upload avatar"))
 
+    const result = await uploadFilesToCloudinary([file]);
+
     const avatar = {
-        public_id : 'nowijfo',
-        url : "https://newimage.com"
-    }
+    public_id: result[0].public_id,
+    url: result[0].url,
+  };
 
     const user = await User.create({name, username, password,bio,avatar});
     // res.status(200).json({
