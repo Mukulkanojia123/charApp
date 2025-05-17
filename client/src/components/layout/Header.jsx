@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios'
 import {userNotExists} from "../../redux/reducers/auth"
+import { setIsMobile } from '../../redux/reducers/misc'
 // import SearchDialog from '../specific/Search'
 
   const SearchDialog = lazy(() => import('../specific/Search'))
@@ -19,14 +20,14 @@ const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     
-    const [isMobile , setIsMobile] = useState();
+    // const [isMobile , setIsMobile] = useState();
     const [isSearch , setIsSearch] = useState();
     const [isNewGroup , setIsNewGroup] = useState();
     const [isNotification , setIsNotification] = useState();
 
 
   const handleMobile = () =>{
-    setIsMobile(prev => !prev)
+    dispatch(setIsMobile(true))
   }
   const openSearchDialog = () =>{
     setIsSearch(prev => !prev)
