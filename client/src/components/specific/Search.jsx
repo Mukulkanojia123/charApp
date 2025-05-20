@@ -1,13 +1,12 @@
-import React , {useState}from 'react';
-import { Dialog, DialogTitle, Stack, TextField, InputAdornment, List, ListItem, ListItemText } from '@mui/material';
 import { useInputValidation } from "6pp";
 import { Search as SearchIcon } from '@mui/icons-material';
-import UserItem from '../shared/UserItem';
-import {sampleUsers} from '../constants/sampleData'
+import { Dialog, DialogTitle, InputAdornment, List, Stack, TextField } from '@mui/material';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsSearch } from '../../redux/reducers/misc';
-import { useLazySearchUserQuery, useSendFriendRequestMutation } from '../../redux/api/api';
 import { useAsyncMutation } from '../../hooks/hook';
+import { useLazySearchUserQuery, useSendFriendRequestMutation } from '../../redux/api/api';
+import { setIsSearch } from '../../redux/reducers/misc';
+import UserItem from '../shared/UserItem';
 
 // const users = [1,2,3,4,5]
 
@@ -31,7 +30,7 @@ const Search = () => {
   const searchCloseHandler = () => dispatch(setIsSearch(false));
 
 
-  let isLoadingSendFriend = false;
+
 
   const [users, setUsers] = useState([])
    
@@ -70,7 +69,7 @@ const Search = () => {
         <List>
           {
             users.map((user) =>(
-              <UserItem user={user} key={user._id} handler={addFriendHandler} handlerIsLoading={isLoadingSendFriend}/>
+              <UserItem user={user} key={user._id} handler={addFriendHandler} handlerIsLoading={isLoadingSendFriendRequest}/>
             ))
           }
         </List>

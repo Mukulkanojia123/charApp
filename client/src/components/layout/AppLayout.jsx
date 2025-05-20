@@ -112,7 +112,7 @@ const AppLayout = (WrappedComponent) => {
               bgcolor: "rgba(0,0,0,0.85)",
             }}
           >
-            <Profile />
+            <Profile user={user}/>
           </Grid>
         </Grid>
       </>
