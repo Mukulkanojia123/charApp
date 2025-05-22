@@ -2,6 +2,7 @@ import React, { lazy, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, useBeforeUnload } from 'react-router-dom';
 import App from './App.jsx';
 import ProtectRoute from './components/auth/ProtectRoute.jsx';
+import { SocketProvider } from './socket.jsx';
 
 
 
@@ -21,6 +22,7 @@ import { server } from './components/constants/config.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { userNotExists, userExists } from './redux/reducers/auth.js';
 import { LayoutLoader } from './components/layout/Loaders.jsx';
+
 
 
 const Body = () => {
@@ -44,7 +46,11 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <ProtectRoute user={user} />,
+        element: (
+        <SocketProvider>
+          <ProtectRoute user={user} />
+        </SocketProvider>
+        ),
         children: [
           { path: '/', element: <Home /> },
           { path: '/chat/:chatId', element: <Chat /> },
