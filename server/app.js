@@ -17,7 +17,7 @@ import { corsOptions } from "./constants/config.js";
 import userRouter from './routes/user.js'
 import chatRouter from './routes/chat.js'
 import adminRoute from './routes/admin.js'
-import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
+import { CHAT_JOINED, CHAT_LEAVED, NEW_MESSAGE, NEW_MESSAGE_ALERT, ONLINE_USERS, START_TYPING, STOP_TYPING } from "./constants/events.js";
 import { getSockets } from "./lib/helper.js";
 import { Message } from "./models/message.js";
 import { socketAuthenticator } from "./middlewares/auth.js";
