@@ -1,7 +1,7 @@
 
-import React, { useRef , useState} from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import AppLayout from '../components/layout/AppLayout'
-import { IconButton, Stack } from '@mui/material'
+import { IconButton, Skeleton, Stack } from '@mui/material'
 import { AttachFile as AttachFileIcon, Send as SendIcon } from '@mui/icons-material'
 import { InputBox } from '../components/styles/StyledComponents'
 import FileMenu from '../components/dialogs/FileMenu'
@@ -42,7 +42,15 @@ const Chat = ({ chatId, user }) => {
   //   _id: 'skdnfowi',
   //   name: 'Mukul King of the World'
   // }
-   const messageOnChange = (e) => {
+
+   const errors = [
+    { isError: chatDetails.isError, error: chatDetails.error },
+    { isError: oldMessagesChunk.isError, error: oldMessagesChunk.error },
+  ];
+
+   const members = chatDetails?.data?.chat?.members;
+
+  const messageOnChange = (e) => {
     setMessage(e.target.value);
 
     if (!IamTyping) {
@@ -68,10 +76,33 @@ const Chat = ({ chatId, user }) => {
     setMessage("");
   };
 
+  useEffect(() => {
+    socket.emit(CHAT_JOINED, { userId: user._id, members });
+    dispatch(removeNewMessagesAlert(chatId));
+
+    return () => {
+      setMessages([]);
+      setMessage("");
+      setOldMessages([]);
+      setPage(1);
+      socket.emit(CHAT_LEAVED, { userId: user._id, members });
+    };
+  }, [chatId]);
+
+  useEffect(() => {
+    if (bottomRef.current)
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    if (chatDetails.isError) return navigate("/");
+  }, [chatDetails.isError]);
 
 
   // const fileMenuRef = useRef(null)
-  return (
+  return chatDetails.isLoading ? (
+    <Skeleton />
+  ) : (
     <>
       <Stack ref={containerRef}
         boxSizing={'border-box'}
@@ -96,7 +127,7 @@ const Chat = ({ chatId, user }) => {
         style={{
           height: '10%'
         }}
-          onSubmit={submitHandler}
+        onSubmit={submitHandler}
       >
         <Stack
           direction={'row'}
@@ -116,9 +147,9 @@ const Chat = ({ chatId, user }) => {
           >
             <AttachFileIcon />
           </IconButton>
-          <InputBox placeholder='type here' 
-          value={message}
-          onChange={messageOnChange}/>
+          <InputBox placeholder='type here'
+            value={message}
+            onChange={messageOnChange} />
           <IconButton type='submit'
             sx={{
               background: 'orange',
