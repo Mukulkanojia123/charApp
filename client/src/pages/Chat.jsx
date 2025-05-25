@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { NEW_MESSAGE, START_TYPING } from '../components/constants/events'
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api'
+import { useInfiniteScrollTop } from "6pp";
+import { removeNewMessagesAlert } from '../redux/reducers/chat'
 
 const Chat = ({ chatId, user }) => {
 
@@ -37,6 +39,14 @@ const Chat = ({ chatId, user }) => {
   const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
 
   const oldMessagesChunk = useGetMessagesQuery({ chatId, page });
+
+    const { data: oldMessages, setData: setOldMessages } = useInfiniteScrollTop(
+    containerRef,
+    oldMessagesChunk.data?.totalPages,
+    page,
+    setPage,
+    oldMessagesChunk.data?.messages
+  );
 
   // const user = {
   //   _id: 'skdnfowi',
@@ -98,6 +108,50 @@ const Chat = ({ chatId, user }) => {
     if (chatDetails.isError) return navigate("/");
   }, [chatDetails.isError]);
 
+
+  const newMessagesListener = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+
+      setMessages((prev) => [...prev, data.message]);
+    },
+    [chatId]
+  );
+
+  const startTypingListener = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+
+      setUserTyping(true);
+    },
+    [chatId]
+  );
+
+  const stopTypingListener = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+      setUserTyping(false);
+    },
+    [chatId]
+  );
+
+  const alertListener = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+      const messageForAlert = {
+        content: data.message,
+        sender: {
+          _id: "djasdhajksdhasdsadasdas",
+          name: "Admin",
+        },
+        chat: chatId,
+        createdAt: new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, messageForAlert]);
+    },
+    [chatId]
+  );
 
   // const fileMenuRef = useRef(null)
   return chatDetails.isLoading ? (
