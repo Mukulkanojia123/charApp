@@ -55,8 +55,8 @@ const AppLayout = (WrappedComponent) => {
               chats={data?.chats}
               chatId={chatId}
               handleDeleteChat={handleDeleteChat}
-              // newMessagesAlert={newMessagesAlert}
-              // onlineUsers={onlineUsers}
+              newMessagesAlert={newMessagesAlert}
+              onlineUsers={onlineUsers}
             />
           </Drawer>
         )}

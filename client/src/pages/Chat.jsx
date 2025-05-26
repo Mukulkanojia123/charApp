@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import AppLayout from '../components/layout/AppLayout'
 import { IconButton, Skeleton, Stack } from '@mui/material'
 import { AttachFile as AttachFileIcon, Send as SendIcon } from '@mui/icons-material'
@@ -15,6 +15,8 @@ import { NEW_MESSAGE, START_TYPING } from '../components/constants/events'
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api'
 import { useInfiniteScrollTop } from "6pp";
 import { removeNewMessagesAlert } from '../redux/reducers/chat'
+import { useErrors, useSocketEvents } from '../hooks/hook'
+
 
 const Chat = ({ chatId, user }) => {
 
@@ -74,6 +76,11 @@ const Chat = ({ chatId, user }) => {
       socket.emit(STOP_TYPING, { members, chatId });
       setIamTyping(false);
     }, [2000]);
+  };
+
+   const handleFileOpen = (e) => {
+    dispatch(setIsFileMenu(true));
+    setFileMenuAnchor(e.currentTarget);
   };
 
   const submitHandler = (e) => {
@@ -153,6 +160,19 @@ const Chat = ({ chatId, user }) => {
     [chatId]
   );
 
+  const eventHandler = {
+    [ALERT]: alertListener,
+    [NEW_MESSAGE]: newMessagesListener,
+    [START_TYPING]: startTypingListener,
+    [STOP_TYPING]: stopTypingListener,
+  };
+
+  useSocketEvents(socket, eventHandler);
+
+  useErrors(errors);
+
+  const allMessages = [...oldMessages, ...messages];
+
   // const fileMenuRef = useRef(null)
   return chatDetails.isLoading ? (
     <Skeleton />
@@ -171,10 +191,13 @@ const Chat = ({ chatId, user }) => {
       >
 
         {
-          sampleMessage?.map((i) => (
-            <MessageComponent message={i} user={user} />
-          ))
-        }
+        allMessages.map((i) => (
+          <MessageComponent key={i._id} message={i} user={user} />
+        ))}
+
+        {userTyping && <TypingLoader />}
+
+        <div ref={bottomRef} />
       </Stack>
 
       <form
@@ -219,7 +242,7 @@ const Chat = ({ chatId, user }) => {
         </Stack>
 
       </form>
-      <FileMenu />
+      <FileMenu anchorE1={fileMenuAnchor} chatId={chatId}/>
     </>
   )
 }
