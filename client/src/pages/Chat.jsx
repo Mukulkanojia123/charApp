@@ -16,6 +16,7 @@ import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api'
 import { useInfiniteScrollTop } from "6pp";
 import { removeNewMessagesAlert } from '../redux/reducers/chat'
 import { useErrors, useSocketEvents } from '../hooks/hook'
+import { setIsFileMenu } from '../redux/reducers/misc'
 
 
 const Chat = ({ chatId, user }) => {
@@ -50,10 +51,6 @@ const Chat = ({ chatId, user }) => {
     oldMessagesChunk.data?.messages
   );
 
-  // const user = {
-  //   _id: 'skdnfowi',
-  //   name: 'Mukul King of the World'
-  // }
 
    const errors = [
     { isError: chatDetails.isError, error: chatDetails.error },
@@ -220,7 +217,7 @@ const Chat = ({ chatId, user }) => {
               rotate: '30deg'
 
             }}
-          // ref={fileMenuRef}
+          onClick={handleFileOpen}
           >
             <AttachFileIcon />
           </IconButton>
