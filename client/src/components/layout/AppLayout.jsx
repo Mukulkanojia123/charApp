@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
 import Title from "../shared/Title";
@@ -9,9 +9,10 @@ import Profile from "../specific/Profile";
 import { useMyChatsQuery } from "../../redux/api/api";
 import { Drawer, Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import {setIsMobile} from "../../redux/reducers/misc"
-import { useErrors } from "../../hooks/hook";
+import { setIsMobile } from "../../redux/reducers/misc"
+import { useErrors, useSocketEvents } from "../../hooks/hook";
 import { getSocket } from "../../socket";
+import { setNewMessagesAlert } from "../../redux/reducers/chat";
 
 const AppLayout = (WrappedComponent) => {
   return (props) => {
@@ -27,16 +28,33 @@ const AppLayout = (WrappedComponent) => {
 
     useErrors([{ isError, error }]);
 
-    useEffect(()=>{
-      
-    },[])
+    useEffect(() => {
+
+    }, [])
 
     const handleDeleteChat = (e, _id, groupChat) => {
 
     }
 
-      const handleMobileClose = () => dispatch(setIsMobile(false));
+    const handleMobileClose = () => dispatch(setIsMobile(false));
 
+    const newMessageAlertListener = useCallback(
+      (data) => {
+        if (data.chatId === chatId) return;
+        dispatch(setNewMessagesAlert(data));
+      },
+      [chatId]
+    );
+
+
+    const eventHandlers = {
+      [NEW_MESSAGE_ALERT]: newMessageAlertListener,
+      [NEW_REQUEST]: newRequestListener,
+      [REFETCH_CHATS]: refetchListener,
+      [ONLINE_USERS]: onlineUsersListener,
+    };
+
+    useSocketEvents(socket, eventHandlers);
 
     return (
       <>
@@ -114,7 +132,7 @@ const AppLayout = (WrappedComponent) => {
               bgcolor: "rgba(0,0,0,0.85)",
             }}
           >
-            <Profile user={user}/>
+            <Profile user={user} />
           </Grid>
         </Grid>
       </>
