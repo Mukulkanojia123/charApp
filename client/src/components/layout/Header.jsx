@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Typography, IconButton, Tooltip, Backdrop } from '@mui/material'
+import { AppBar, Box, Toolbar, Typography, IconButton, Tooltip, Backdrop, Badge } from '@mui/material'
 import React, { lazy, Suspense, useState } from 'react'
 import { orange } from '../constants/color'
 import { Add as AddIcon, Menu as MenuIcon, Search as SearchIcon, Group as GroupIcon, Logout as LogoutIcon, Notifications as NotificationsIcon } from "@mui/icons-material"
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios'
 import { userNotExists } from "../../redux/reducers/auth"
 import { setIsMobile, setIsNewGroup, setIsNotification, setIsSearch } from '../../redux/reducers/misc'
+import { resetNotificationCount } from '../../redux/reducers/chat'
 // import SearchDialog from '../specific/Search'
 
 const SearchDialog = lazy(() => import('../specific/Search'))
@@ -24,7 +25,7 @@ const Header = () => {
     (state) => state.misc
   );
 
-
+  const { notificationCount } = useSelector((state) => state.chat);
 
   const handleMobile = () => dispatch(setIsMobile(true))
   
@@ -101,6 +102,7 @@ const Header = () => {
                 title="Notification"
                 icon={<NotificationsIcon />}
                 onClick={openNotification}
+                value={notificationCount}
               />
               <IconBtn
                 title="Logout"
@@ -141,14 +143,20 @@ const Header = () => {
   )
 }
 
-const IconBtn = ({ title, icon, onClick }) => {
+const IconBtn = ({ title, icon, onClick, value }) => {
   return (
     <Tooltip title={title}>
-      <IconButton color='inherit' size='large' onClick={onClick}>
-        {icon}
+      <IconButton color="inherit" size="large" onClick={onClick}>
+        {value ? (
+          <Badge badgeContent={value} color="error">
+            {icon}
+          </Badge>
+        ) : (
+          icon
+        )}
       </IconButton>
     </Tooltip>
-  )
-}
+  );
+};
 
 export default Header
