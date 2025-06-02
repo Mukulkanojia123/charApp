@@ -11,7 +11,7 @@ import { grayColor } from '../components/constants/color'
 import { getSocket } from '../socket'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { NEW_MESSAGE, START_TYPING } from '../components/constants/events'
+import {  ALERT, CHAT_JOINED, CHAT_LEAVED, NEW_MESSAGE, NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../components/constants/events'
 import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api'
 import { useInfiniteScrollTop } from "6pp";
 import { removeNewMessagesAlert } from '../redux/reducers/chat'
