@@ -3,13 +3,31 @@ import { Button, Dialog, DialogTitle, Stack, TextField, Typography } from '@mui/
 import React, { useState } from 'react';
 import UserItem from '../shared/UserItem';
 import { sampleUsers } from './../constants/sampleData';
+import { useAsyncMutation, useErrors } from '../../hooks/hook';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAvailableFriendsQuery } from '../../redux/api/api';
 
 const NewGroup = () => {
+
+   const { isNewGroup } = useSelector((state) => state.misc);
+  const dispatch = useDispatch();
+
+  const { isError, isLoading, error, data } = useAvailableFriendsQuery();
+  const [newGroup, isLoadingNewGroup] = useAsyncMutation(useNewGroupMutation);
 
   const groupName = useInputValidation("")
 
   const [members , setMembers]  = useState(sampleUsers)
   const [selectedMembers , setSelectedMembers]  = useState("")
+
+  const errors = [
+    {
+      isError,
+      error,
+    },
+  ];
+
+  useErrors(errors);
 
 const selectMemberhandler = (id) => {
 
