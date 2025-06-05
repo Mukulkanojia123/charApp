@@ -15,7 +15,7 @@ import { setIsAddMember } from '../redux/reducers/misc'
 const ConfirmDeleteDialog = lazy(() => import('../components/dialogs/ConfirmDeleteDialog'))
 const AddMemberDialog = lazy(() => import('../components/dialogs/AddMemberDialog'))
 
-const isAddMember = false;
+// const isAddMember = false;
 
 const Groups = () => {
 

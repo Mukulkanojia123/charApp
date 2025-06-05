@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "./Header";
 import Title from "../shared/Title";
 import Grid from "@mui/material/Grid2";
@@ -21,6 +21,7 @@ const AppLayout = (WrappedComponent) => {
   return (props) => {
     const params = useParams()
     const dispatch = useDispatch()
+     const navigate = useNavigate();
     const chatId = params.chatId
     const socket = getSocket()
 
