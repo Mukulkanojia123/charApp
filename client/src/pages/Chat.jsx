@@ -1,22 +1,21 @@
 
-import { useRef, useState, useEffect, useCallback } from 'react'
-import AppLayout from '../components/layout/AppLayout'
-import { IconButton, Skeleton, Stack } from '@mui/material'
+import { useInfiniteScrollTop } from "6pp"
 import { AttachFile as AttachFileIcon, Send as SendIcon } from '@mui/icons-material'
-import { InputBox } from '../components/styles/StyledComponents'
-import FileMenu from '../components/dialogs/FileMenu'
-import { sampleMessage } from '../components/constants/sampleData'
-import MessageComponent from '../components/shared/MessageComponent'
-import { grayColor } from '../components/constants/color'
-import { getSocket } from '../socket'
+import { IconButton, Skeleton, Stack } from '@mui/material'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import {  ALERT, CHAT_JOINED, CHAT_LEAVED, NEW_MESSAGE, NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../components/constants/events'
-import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api'
-import { useInfiniteScrollTop } from "6pp";
-import { removeNewMessagesAlert } from '../redux/reducers/chat'
+import { grayColor } from '../components/constants/color'
+import { ALERT, CHAT_JOINED, CHAT_LEAVED, NEW_MESSAGE, START_TYPING, STOP_TYPING } from '../components/constants/events'
+import FileMenu from '../components/dialogs/FileMenu'
+import AppLayout from '../components/layout/AppLayout'
+import MessageComponent from '../components/shared/MessageComponent'
+import { InputBox } from '../components/styles/StyledComponents'
 import { useErrors, useSocketEvents } from '../hooks/hook'
+import { useChatDetailsQuery, useGetMessagesQuery } from '../redux/api/api'
+import { removeNewMessagesAlert } from '../redux/reducers/chat'
 import { setIsFileMenu } from '../redux/reducers/misc'
+import { getSocket } from '../socket'
 
 
 const Chat = ({ chatId, user }) => {

@@ -10,8 +10,6 @@ const ConfirmDeleteDialog = ({open, handleClose, deleteHandler}) => {
     <DialogContent>
         <Button onClick={handleClose}>No</Button>
         <Button onClick={deleteHandler} color='error'>Yes</Button>
-        {/* <button >Cancle</button>
-        <button >Delete</button> */}
     </DialogContent>
   </Dialog>
 }

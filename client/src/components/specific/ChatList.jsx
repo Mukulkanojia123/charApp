@@ -1,7 +1,5 @@
-import React from 'react'
-import { Stack } from '@mui/material'
-import ChatItem from '../shared/ChatItem'
-import { bgGradient } from '../constants/color';
+import { Stack } from '@mui/material';
+import ChatItem from '../shared/ChatItem';
 
 const ChatList = ({w='100%', chats=[],chatId, onlineUsers=[],newMessagesAlert=[{chatId : "", count:0}], handleDeleteChat, }) => {
     console.log(chatId);

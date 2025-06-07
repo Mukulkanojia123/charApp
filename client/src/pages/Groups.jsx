@@ -1,15 +1,14 @@
 import { Add as AddIcon, Delete as DeleteIcon, Done as DoneIcon, Edit as EditIcon, KeyboardBackspace as KeyboardBackspaceIcon, Menu as MenuIcon } from '@mui/icons-material'
-import { Backdrop, Box, Button, ButtonGroup, CircularProgress, Drawer, Grid2, IconButton, Stack, Tooltip, Typography } from '@mui/material'
-import { bgGradient, matBlack } from '../components/constants/color'
-import React, { memo, useEffect, useState, lazy, Suspense } from 'react'
+import { Backdrop, Box, Button, CircularProgress, Drawer, Grid2, IconButton, Stack, Tooltip, Typography } from '@mui/material'
+import { lazy, memo, Suspense, useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Link } from '../components/styles/StyledComponents'
-import AvatarCard from "../components/shared/AvatarCard";
-import { sampleChats, sampleUsers } from "../components/constants/sampleData"
+import { bgGradient, matBlack } from '../components/constants/color'
+import { LayoutLoader } from "../components/layout/Loaders"
+import AvatarCard from "../components/shared/AvatarCard"
 import UserItem from '../components/shared/UserItem'
-import { useChatDetailsQuery } from '../redux/api/api'
+import { Link } from '../components/styles/StyledComponents'
 import { useAsyncMutation, useErrors } from '../hooks/hook'
-import {LayoutLoader} from "../components/layout/Loaders"
+import { useChatDetailsQuery } from '../redux/api/api'
 import { setIsAddMember } from '../redux/reducers/misc'
 
 const ConfirmDeleteDialog = lazy(() => import('../components/dialogs/ConfirmDeleteDialog'))
