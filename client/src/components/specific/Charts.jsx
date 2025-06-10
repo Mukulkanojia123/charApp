@@ -1,120 +1,109 @@
-import React from 'react';
-import {Line , Doughnut} from 'react-chartjs-2'
 import {
-    CategoryScale,
-    Chart as ChartJs,
-    Tooltip,
-    LinearScale,
-    PointElement,
-    LineElement,
     ArcElement,
-    Legend,
-    plugins,
-    scales
-} from 'chart.js';
-import { BorderColor, OfflineShareTwoTone } from '@mui/icons-material';
-import { purple, purpleLight } from '../constants/color';
-import { getLast7Days } from '../../lib/features';
-
-ChartJs.register(
     CategoryScale,
-    Tooltip,
+    Chart as ChartJS,
+    Filler,
+    Legend,
+    LineElement,
     LinearScale,
     PointElement,
+    Tooltip,
+} from "chart.js";
+import { Doughnut, Line } from "react-chartjs-2";
+import {
+    orange,
+    orangeLight,
+    purple,
+    purpleLight,
+} from "../../components/constants/color";
+import { getLast7Days } from "../../lib/features";
+
+ChartJS.register(
+    Tooltip,
+    CategoryScale,
+    LinearScale,
     LineElement,
+    PointElement,
+    Filler,
     ArcElement,
     Legend
 );
 
-const labels = getLast7Days()
+const labels = getLast7Days();
 
- const linerChartOptions =  {
-    responsive : true,
-    plugins : {
-        legend : {
-            display : false,
-        }
-    },
-    title : {
-        display : false
-    },
-    scales : {
-        x:{
-            grid : {
-                display : false,   // to remove gride
-            }
+const lineChartOptions = {
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false,
         },
-        y : {
-            beginAtZero : true,
-            grid : {
-                display : false,   // to remove gride
-            }
-        }
-    }
- }
+        title: {
+            display: false,
+        },
+    },
 
- const LineChart = ({value = []}) => {
+    scales: {
+        x: {
+            grid: {
+                display: false,
+            },
+        },
+        y: {
+            beginAtZero: true,
+            grid: {
+                display: false,
+            },
+        },
+    },
+};
 
+const LineChart = ({ value = [] }) => {
     const data = {
-       labels ,
-       datasets : [
-        {
-        data : value,
-        label : 'Revenue',
-        fill : true,
-        backgroundColor : purpleLight,
-        borderColor : purple,
-       },
-        
-    ]
-    }
+        labels,
+        datasets: [
+            {
+                data: value,
+                label: "Messages",
+                fill: true,
+                backgroundColor: purpleLight,
+                borderColor: purple,
+            },
+        ],
+    };
 
-  return (
-    <Line data={data} options={linerChartOptions}/>
-  )
-}
-
+    return <Line data={data} options={lineChartOptions} />;
+};
 
 const doughnutChartOptions = {
-    responsive : true,
-    plugins : {
-        legend : {
-            display : false,
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false,
         },
-        // title : {
-        //     display : false,
-        // }
     },
-    cutout : 120,
-    
-}
+    cutout: 120,
+};
 
- const DoughnutChart = ({value = [], labels = []}) => {
-    
+const DoughnutChart = ({ value = [], labels = [] }) => {
     const data = {
-        labels ,
-        datasets : [
-         {
-         data : value,
-        //  label : 'Total Chats vs Group Charts',
-         
-         backgroundColor : [purpleLight, orangeLight],
-         hoverBackgroundColor : [purple, orange],
-         borderColor : [purple, orange],
-         Offset : 40,
-        },
-         
-     ]
-    }
+        labels,
+        datasets: [
+            {
+                data: value,
+                backgroundColor: [purpleLight, orangeLight],
+                hoverBackgroundColor: [purple, orange],
+                borderColor: [purple, orange],
+                offset: 40,
+            },
+        ],
+    };
+    return (
+        <Doughnut
+            style={{ zIndex: 10 }}
+            data={data}
+            options={doughnutChartOptions}
+        />
+    );
+};
 
-
-  return (
-    <Doughnut 
-    style={{zIndex : 10}}
-    data={data} 
-    options={doughnutChartOptions}/>
-  )
-}
-
-export {LineChart, DoughnutChart}
-
+export { DoughnutChart, LineChart };
